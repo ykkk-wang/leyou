@@ -1,0 +1,35 @@
+server:
+  port: 10010
+spring:
+  application:
+    name: api-gateway
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:10086/eureka
+    registry-fetch-interval-seconds: 5
+
+zuul:
+  prefix: /api # 添加路由前缀
+  routes:
+    # 微服务名: 要映射到到地址
+    item-service: /item/** # 将商品微服务映射到/item/**
+    search-service: /search/** # 路由到搜索微服务
+    user-service: /user/** #用戶微服務
+    auth-service: /auth/** #登录微服务
+    cart-service: /cart/** #购物车微服务
+    order-service: /order/** #订单微服务
+  add-host-header: true
+  sensitive-headers: #覆盖默认敏感头信息
+leyou:
+  jwt:
+    pubKeyPath: C:\\tmp\\rsa\\rsa.pub # 公钥地址
+    cookieName: LY_TOKEN
+  filter:
+    allowPaths:
+      - /api/auth
+      - /api/search
+      - /api/user/register
+      - /api/user/check
+      - /api/user/code
+      - /api/item
